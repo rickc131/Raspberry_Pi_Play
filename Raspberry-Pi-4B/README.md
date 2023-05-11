@@ -1,20 +1,20 @@
-# Raspberry-Pi_mqtt_client_master
+# Raspberry_Pi_4b_mqtt_client_master
 
-## 用法
+## instruction
 
 ```bash
-# 编译
+# compile
 gcc cJSON.c clientmian.c -o client -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
-# 运行
+# run
 ./client tcp://ip:port clientid topic username password
 
-# 例子
+# example
 ./client tcp://127.0.0.1:1883 id_1 info_1 admin 123456
 ```
 
-## 环境搭建
+## environment
 
-### WiringPi库
+### WiringPi
 
 ```bash
 git clone https://github.com/WiringPi/WiringPi.git
