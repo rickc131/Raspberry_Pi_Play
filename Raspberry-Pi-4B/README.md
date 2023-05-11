@@ -1,6 +1,6 @@
 # Raspberry_Pi_4b_mqtt_client_master
 
-## instruction
+## Instruction
 
 ```bash
 # compile
@@ -12,7 +12,7 @@ gcc cJSON.c clientmian.c -o client -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
 ./client tcp://127.0.0.1:1883 id_1 info_1 admin 123456
 ```
 
-## environment
+## Environment
 
 ### WiringPi
 
