@@ -6,7 +6,7 @@
 #include "MQTTClient.h"
 #include "All.c"
 
-//gcc cJSON.c clientmian.c -o publish -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
+//gcc cJSON.c clientmain.c -o publish -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
 #define QOS         1
 #define TIMEOUT     10000L  //延时发送
 
@@ -18,9 +18,9 @@ int main(int argc, char *argv[]) {
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
     int rc;
-    if (argc < 6)
+    if (argc < 4)
     //帮助
-        printf("example: ./client tcp://ip:port clientid topic username password\n");
+        printf("example: ./client tcp://ip:port clientid topic\n");
     else {
         for (int i = 0; i < argc; ++i) {
             printf("%s ", argv[i]);
@@ -44,11 +44,11 @@ int main(int argc, char *argv[]) {
             tmpAndhum(hUm, tMp);
 
             /* 创建一个JSON数据对象 */
-            inf = cJSON_CreateObject();
-            tsuiot = cJSON_CreateObject();
-            cJSON_AddStringToObject(tsuiot, "RESULT", "S（成功）或者E（失败）");
-            cJSON_AddStringToObject(tsuiot, "DESC", "数据处理情况的描述");
-            data = cJSON_CreateObject();
+            //inf = cJSON_CreateObject();
+            //tsuiot = cJSON_CreateObject();
+            //cJSON_AddStringToObject(tsuiot, "RESULT", "S（成功）或者E（失败）");
+            //cJSON_AddStringToObject(tsuiot, "DESC", "数据处理情况的描述");
+            //data = cJSON_CreateObject();
             datainfos = cJSON_CreateObject();
             cJSON_AddStringToObject(datainfos, "DeviceCode", "0100000121");
             datainfo = cJSON_CreateArray();
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
             tmp = cJSON_CreateObject();
             cJSON_AddStringToObject(tmp, "SensorCode", "1100000284");
             cJSON_AddStringToObject(tmp, "EnvirCode", "101");
-            cJSON_AddStringToObject(tmp, "SensorType", "ceshi001");
+            cJSON_AddStringToObject(tmp, "SensorType", "raspi01");
             cJSON_AddStringToObject(tmp, "NodeCode", "1000000084");
             cJSON_AddStringToObject(tmp, "DataValue", hUm);
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
             hum = cJSON_CreateObject();
             cJSON_AddStringToObject(hum, "SensorCode", "1100000284");
             cJSON_AddStringToObject(hum, "EnvirCode", "102");
-            cJSON_AddStringToObject(hum, "SensorType", "ceshi001");
+            cJSON_AddStringToObject(hum, "SensorType", "raspi01");
             cJSON_AddStringToObject(hum, "NodeCode", "1000000084");
             cJSON_AddStringToObject(hum, "DataValue", tMp);
 
@@ -74,19 +74,19 @@ int main(int argc, char *argv[]) {
             ill = cJSON_CreateObject();
             cJSON_AddStringToObject(ill, "SensorCode", "1100000790");
             cJSON_AddStringToObject(ill, "EnvirCode", "103");
-            cJSON_AddStringToObject(ill, "SensorType", "47");
+            cJSON_AddStringToObject(ill, "SensorType", "raspi01");
             cJSON_AddStringToObject(ill, "NodeCode", "1000000084");
             cJSON_AddStringToObject(ill, "DataValue", iLl);
 
             cJSON_AddItemToObject(datainfo, "", ill);
 
             cJSON_AddItemToObject(datainfos, "DATAINFO", datainfo);
-            cJSON_AddItemToObject(data, "DATAINFOS", datainfos);
-            cJSON_AddItemToObject(tsuiot, "DATA", data);
-            cJSON_AddItemToObject(inf, "TSUIOT", tsuiot);
-            str = cJSON_Print(inf);
+            //cJSON_AddItemToObject(data, "DATAINFOS", datainfos);
+            //cJSON_AddItemToObject(tsuiot, "DATA", data);
+            //cJSON_AddItemToObject(inf, "TSUIOT", tsuiot);
+            //str = cJSON_Print(inf);
 
-            inf_payload = cJSON_Print(inf);
+            inf_payload = cJSON_Print(datainfos);
 
             if ((rc = MQTTClient_create(&client, argv[1], argv[2],
                                         MQTTCLIENT_PERSISTENCE_NONE, NULL)) != MQTTCLIENT_SUCCESS) {
@@ -96,8 +96,8 @@ int main(int argc, char *argv[]) {
 
             conn_opts.keepAliveInterval = 20;
             conn_opts.cleansession = 1;
-            conn_opts.username = argv[4];
-            conn_opts.password = argv[5];
+            //conn_opts.username = argv[4];
+            //conn_opts.password = argv[5];
             if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) {
                 printf("Failed to connect, return code %d\n", rc);
                 exit(EXIT_FAILURE);
