@@ -6,10 +6,10 @@
 # compile
 gcc cJSON.c clientmian.c -o client -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
 # run
-./client tcp://ip:port clientid topic username password
+./client tcp://ip:port clientid topic
 
 # example
-./client tcp://127.0.0.1:1883 id_1 info_1 admin 123456
+./client tcp://127.0.0.1:1883 id_1 topic_1
 ```
 
 ## Environment
