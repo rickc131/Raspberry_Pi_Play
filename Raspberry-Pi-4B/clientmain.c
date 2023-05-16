@@ -8,7 +8,7 @@
 
 //gcc cJSON.c clientmain.c -o publish -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
 #define QOS         1
-#define TIMEOUT     10000L  //延时发送
+#define TIMEOUT     0
 
 char *inf_payload;
 
@@ -18,9 +18,9 @@ int main(int argc, char *argv[]) {
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
     int rc;
-    if (argc < 4)
+    if (argc < 5)
     //帮助
-        printf("example: ./client tcp://ip:port clientid topic\n");
+        printf("example: ./client tcp://ip:port clientid topic timeout(s)\n");
     else {
         for (int i = 0; i < argc; ++i) {
             printf("%s ", argv[i]);
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
             }
             rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
             printf("Message with delivery token %d delivered\n", token);
-            sleep(10);
+            sleep(atoi(argv[4]));
 
         }
     }
