@@ -6,10 +6,10 @@
 # compile
 gcc cJSON.c clientmian.c -o client -lpaho-mqtt3c -lpaho-mqtt3a -lwiringPi
 # run
-./client tcp://ip:port clientid topic
+./client tcp://ip:port clientid topic timeout
 
 # example
-./client tcp://127.0.0.1:1883 id_1 topic_1
+./client tcp://127.0.0.1:1883 id_1 topic_1 300
 ```
 
 ## Environment
